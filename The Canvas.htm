@@ -1,0 +1,184 @@
+	<html>
+
+	<style>
+
+
+	@import url('https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&family=Noto+Serif+JP:wght@200&family=Roboto:wght@100&display=swap');
+
+	@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+	</style>	
+	<head>
+
+
+
+
+	<h1 style="font-family: Sriracha, cursive">The Awesome Canvas de mi</h1>
+
+	</head>
+
+	<body>
+
+	<canvas id="miCanvas" onmouseover="startCanvas(this)"   width="600" height="600" style="border:1px solid black; background-color: green"></canvas>
+		
+	<script>
+
+	function startCanvas(canvas) {
+
+		var bar = canvas.getContext("2d");
+		 //bar.font = "30px Tangerine Regular";
+		 //bar.strokeText("Katoink", 10, 50);
+
+		
+
+		
+		var paddleHeight = 75;
+		var paddleWidth = 10;
+		// x position of paddle starting at 50
+		var paddleX = (canvas.width-500) / 2;
+		// y position of paddle starting at 250
+		var paddleY = canvas.height-350;
+		var upPressed = false;
+		var downPressed = false;
+		var ballRadius = 10;
+		// x coordinate of ball
+		var x = 300;
+		// y coordinate of ball
+		var y = 300;
+		var dx = 5;
+		var dy = 0;
+		document.addEventListener("keydown", keyDownHandler, false);
+		document.addEventListener("keyup", keyUpHandler, false);
+		var interval = setInterval(draw, 10);
+
+		function keyDownHandler(event) {
+	    	if(event.key == "Down" || event.key == "ArrowDown") {
+	        	downPressed = true;
+	    	}
+	    	else if(event.key == "Up" || event.key == "ArrowUp") {
+	        	upPressed = true;
+	    	}
+		}
+
+		function keyUpHandler(event) {
+	    	if(event.key == "Down" || event.key == "ArrowDown") {
+	        	downPressed = false;
+	    	}
+	    	else if(event.key == "Up" || event.key == "ArrowUp") {
+	        	upPressed = false;
+	    	}
+		}
+		
+
+		 function drawBall() {
+
+		 	bar.beginPath();
+		 	bar.arc(x, y, ballRadius, 0, Math.PI*2);
+		 	bar.stroke();
+		 	bar.fillStyle = "orange";
+		 	bar.fill();
+		 	bar.closePath();
+		 
+		}
+
+		 function drawPaddle() {
+		 	//This is the left paddle.
+	    	bar.beginPath();
+	    	bar.rect(paddleX, paddleY, paddleWidth, paddleHeight);
+	    	bar.fillStyle = "#000000";
+	    	bar.fill();
+	    	bar.closePath();
+
+	    	//This is the right paddle.
+	    	/*bar.beginPath();
+	    	bar.rect(paddleR, canvas.height-350, paddleWidth, paddleHeight);
+	    	bar.fillStyle = "#000000";
+	    	bar.fill();
+	    	bar.closePath();*/
+		}
+		 
+		 function draw() {
+	  		
+	  		bar.clearRect(0,0, canvas.width, canvas.height);
+	  		drawBall();
+	  		drawPaddle();
+		 	x += dx;
+	    	y += dy;
+
+	    	//create sound object
+	    	endSound = new gameSound("countOnMe.mp3");
+
+	    	//This if statement will allow the ball to bounce off the right wall
+	    	if(x + dx > canvas.width-ballRadius) {
+	    		dx = -dx;
+			}
+			// this is detecting paddle and ball collision before it hits left wall, compares both x and y parameters
+			else if(x > paddleX && x <= paddleX + paddleWidth && y > paddleY && y <= paddleY + paddleHeight) {
+				dx = -dx;
+			}
+			// detects if hits left wall
+			else if(x + dx < ballRadius) { 
+				endSound.play();
+				//endSound.stop();
+				// Display game ending dialog box
+				//window.alert("GAME OVER KID!");
+				// reloads game after dialog box is dismissed
+				//document.location.reload();
+				// clears the repeating interval of the game
+				//clearInterval(interval);
+			}
+
+			
+			
+
+			//-= goes up and += goes down because of canvas origin in top left corner
+			if(upPressed) {
+    			paddleY -= 7;
+			}			
+			else if(downPressed) {
+    			paddleY += 7; 
+			}
+
+
+		
+		}
+
+
+
+	}
+	    
+
+	function gameSound(src) {
+  		
+  		this.sound = document.createElement("audio");
+  		this.sound.src = src;
+ 	 	this.sound.setAttribute("preload", "auto");
+  		this.sound.setAttribute("controls", "none");
+  		this.sound.style.display = "none";
+  		document.body.appendChild(this.sound);
+  		
+  		this.play = function(){
+    	this.sound.play();
+  		}
+  		
+  		this.stop = function(){
+    	this.sound.pause();
+  		}
+	
+	}
+
+
+
+	</script>
+
+	                                                           
+
+
+	</body>
+
+
+
+
+
+
+
+	</html>
