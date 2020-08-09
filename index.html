@@ -29,12 +29,15 @@
 
 		
 	<script>
+		
+		
+			// document.getElementById("score").innerHTML= 100;
+			document.getElementById("score").innerHTML= 0;
+			let score = 0;
 
-		// document.getElementById("score").innerHTML= 100;
-		document.getElementById("score").innerHTML= 0;
-		let score = 0;
 
-	function startCanvas() {
+
+		function startCanvas() {
 
 		var rando = Math.floor(Math.random()*10);
 		var coordX = [200,215,230,245,260,275,290,305,320,335]
@@ -43,12 +46,6 @@
 		var canvas = document.getElementById("miCanvas");
 
 		var bar = canvas.getContext("2d");
-		 //bar.font = "30px Tangerine Regular";
-		 //bar.strokeText("Katoink", 10, 50);
-
-		
-
-		
 		var paddleHeight = 75;
 		var paddleWidth = 10;
 		// x position of paddle starting at 50
@@ -192,7 +189,8 @@
 			}
 			// detects if hits left wall
 			else if(x + dx < ballRadius) { 
-				endSound.play();
+				bar.clearRect(0,0,600,600);
+				// endSound.play();
 				//endSound.stop();
 				// Display game ending dialog box
 				//window.alert("GAME OVER KID!");
@@ -242,7 +240,7 @@
 	}
 
 
-
+	
 	</script>
 
 	                                                           
