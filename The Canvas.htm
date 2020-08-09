@@ -1,4 +1,4 @@
-	<html>
+		<html>
 
 	<style>
 
@@ -17,12 +17,25 @@
 	</head>
 
 	<body>
+	<p> SCORE: <spam id="score">0</spam></p>
+	
+	<canvas id="miCanvas" onmouseover="startCanvas(this)"   width="600" height="600" style="border:1px solid black; background-color: green"></canvas-->
 
-	<canvas id="miCanvas" onmouseover="startCanvas(this)"   width="600" height="600" style="border:1px solid black; background-color: green"></canvas>
+
+
+
 		
 	<script>
 
+		// document.getElementById("score").innerHTML= 100;
+		document.getElementById("score").innerHTML= 0;
+		let score = 0;
+
 	function startCanvas(canvas) {
+
+		var rando = Math.floor(Math.random()*10);
+		var coordX = [200,215,230,245,260,275,290,305,320,335]
+		var coordY = [200,215,230,245,260,275,290,305,320,335]
 
 		var bar = canvas.getContext("2d");
 		 //bar.font = "30px Tangerine Regular";
@@ -41,11 +54,13 @@
 		var downPressed = false;
 		var ballRadius = 10;
 		// x coordinate of ball
-		var x = 300;
+		var x = coordX[rando];
 		// y coordinate of ball
-		var y = 300;
+		var y = coordY[rando];
+		// window.alert("x= "+x);
+		// window.alert("y= "+y);
 		var dx = 5;
-		var dy = 0;
+		var dy = 1/2;
 		document.addEventListener("keydown", keyDownHandler, false);
 		document.addEventListener("keyup", keyUpHandler, false);
 		var interval = setInterval(draw, 10);
@@ -68,6 +83,55 @@
 	    	}
 		}
 		
+		async function randomBall() {
+
+			for (i = 0; i < 1000; i++) {
+
+				// //window.alert(i)
+				// //foo.clearRect(0,0, bar.width, bar.height);
+				// var rando = Math.floor(Math.random()*10);
+				// var coordX = [200,215,230,245,260,275,290,305,320,335];
+				// var coordY = [200,215,230,245,260,275,290,305,320,335];
+
+				
+		
+				// // // x coordinate of ball
+				// // var x = coordX[rando];
+				// // // y coordinate of ball
+				// // var y = coordY[rando];
+				// // //window.alert("x= "+x);
+				// // //window.alert("y= "+y);
+
+				var x = random(5,595);
+				var y = random(5,595);
+
+				//drawBall();
+				drawBall(x,y);
+				
+			 	//setTimeout(drawBall, 1000);
+
+			 	await delay(300);
+
+			 	foo.clearRect(0,0,600,600);
+
+			}
+			
+
+		}
+		
+		function delay(delayInms) {
+		  return new Promise(resolve => {
+		    setTimeout(() => {
+		      resolve(2);
+		    }, delayInms);
+		  });
+		}
+
+
+		function random(min, max) {
+		  return min + Math.random() * (max - min);
+		}
+
 
 		 function drawBall() {
 
@@ -110,10 +174,16 @@
 	    	//This if statement will allow the ball to bounce off the right wall
 	    	if(x + dx > canvas.width-ballRadius) {
 	    		dx = -dx;
+	    		if (Math.random() > 1/2) 
+	    			dy = -dy;
+			}
+	    	if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+	    		dy = -dy;
 			}
 			// this is detecting paddle and ball collision before it hits left wall, compares both x and y parameters
 			else if(x > paddleX && x <= paddleX + paddleWidth && y > paddleY && y <= paddleY + paddleHeight) {
 				dx = -dx;
+				document.getElementById("score").innerHTML= ++score;
 			}
 			// detects if hits left wall
 			else if(x + dx < ballRadius) { 
