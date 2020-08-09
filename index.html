@@ -1,4 +1,4 @@
-		<html>
+	<html>
 
 	<style>
 
@@ -17,9 +17,12 @@
 	</head>
 
 	<body>
-	<p> SCORE: <spam id="score">0</spam></p>
+	<button type="button" onclick="startCanvas()">Start Game</button>   
+	<p> SCORE: <spam id="score">0</spam></p> 
+
 	
-	<canvas id="miCanvas" onmouseover="startCanvas(this)"   width="600" height="600" style="border:1px solid black; background-color: green"></canvas-->
+	<canvas id="miCanvas" width="600" height="600" style="border:1px solid black; background-color: green"></canvas>
+	
 
 
 
@@ -31,11 +34,13 @@
 		document.getElementById("score").innerHTML= 0;
 		let score = 0;
 
-	function startCanvas(canvas) {
+	function startCanvas() {
 
 		var rando = Math.floor(Math.random()*10);
 		var coordX = [200,215,230,245,260,275,290,305,320,335]
 		var coordY = [200,215,230,245,260,275,290,305,320,335]
+
+		var canvas = document.getElementById("miCanvas");
 
 		var bar = canvas.getContext("2d");
 		 //bar.font = "30px Tangerine Regular";
